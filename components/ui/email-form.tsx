@@ -14,7 +14,7 @@ export const EmailForm = ({ onSubmit }: { onSubmit: (email: string) => void }) =
 
     try {
       // Save email to SheetDB
-      const response = await fetch('https://sheetdb.io/api/v1/hkzv5mno6uvii', {
+      const response = await fetch('post-your-link', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
