@@ -13,7 +13,7 @@ export const EmailForm = ({ onSubmit }: { onSubmit: (email: string) => void }) =
     setIsLoading(true);
 
     try {
-      // First save the email to Google Sheets
+      // Save email to Google Sheets
       const response = await fetch('/api/subscribe', {
         method: 'POST',
         headers: {
@@ -26,23 +26,13 @@ export const EmailForm = ({ onSubmit }: { onSubmit: (email: string) => void }) =
         throw new Error('Failed to save email');
       }
 
-      toast({
-        title: "Success!",
-        description: "Thank you for subscribing!",
-      });
-
-      // Wait a bit before redirecting
-      setTimeout(() => {
-        window.location.href = "https://apps.apple.com/us/app/echo-ai-music-generator/id6618152724";
-      }, 1500);
+      // Call onSubmit to trigger redirect
+      onSubmit(email);
 
     } catch (error) {
       console.error('Error:', error);
-      toast({
-        title: "Error",
-        description: "Failed to save your email. Please try again.",
-        variant: "destructive",
-      });
+      // Continue with redirect even if saving email fails
+      onSubmit(email);
     } finally {
       setIsLoading(false);
     }
@@ -73,7 +63,7 @@ export const EmailForm = ({ onSubmit }: { onSubmit: (email: string) => void }) =
           className="bg-violet-500 text-neutral-50 p-2 rounded-lg hover:bg-violet-400 disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={isLoading}
         >
-          {isLoading ? 'Saving...' : 'Download'}
+          {isLoading ? 'Opening...' : 'Download'}
         </button>
       </div>
     </form>
