@@ -1,6 +1,7 @@
 "use client";
 
 import { Download } from "lucide-react";
+import Link from "next/link";
 
 interface FooterProps {
   onGetStarted: () => void;
@@ -29,15 +30,15 @@ export function Footer({ onGetStarted }: FooterProps) {
           </div>
           <div>
             <h4 className="font-semibold mb-4">Support</h4>
-            <a href="mailto:support@echoai.app" className="text-gray-400 hover:text-white transition-colors">
-              support@echoai.app
+            <a href="mailto:carechomusic@gmail.com" className="text-gray-400 hover:text-white transition-colors">
+              carechomusic@gmail.com
             </a>
           </div>
           <div>
             <h4 className="font-semibold mb-4">Legal</h4>
             <div className="space-y-2">
-              <a href="#" className="block text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="block text-gray-400 hover:text-white transition-colors">Terms of Service</a>
+              <Link href="/terms" className="block text-gray-400 hover:text-white transition-colors">Terms of Service</Link>
+              <Link href="/privacy" className="block text-gray-400 hover:text-white transition-colors">Privacy Policy</Link>
             </div>
           </div>
         </div>

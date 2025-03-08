@@ -13,13 +13,20 @@ export const EmailForm = ({ onSubmit }: { onSubmit: (email: string) => void }) =
     setIsLoading(true);
 
     try {
-      // Save email to Google Sheets
-      const response = await fetch('/api/subscribe', {
+      // Save email to SheetDB
+      const response = await fetch('https://sheetdb.io/api/v1/hkzv5mno6uvii', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({
+          data: [
+            {
+              emails: email
+            }
+          ]
+        })
       });
 
       if (!response.ok) {
