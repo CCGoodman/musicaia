@@ -26,13 +26,16 @@ export const EmailForm = ({ onSubmit }: { onSubmit: (email: string) => void }) =
         throw new Error('Failed to save email');
       }
 
-      // If successful, proceed with the original onSubmit handler
-      onSubmit(email);
-      
       toast({
         title: "Success!",
         description: "Thank you for subscribing!",
       });
+
+      // Wait a bit before redirecting
+      setTimeout(() => {
+        window.location.href = "https://apps.apple.com/us/app/echo-ai-music-generator/id6618152724";
+      }, 1500);
+
     } catch (error) {
       console.error('Error:', error);
       toast({
