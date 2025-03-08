@@ -14,9 +14,10 @@ import { Footer } from "@/components/sections/Footer";
 export default function Home() {
   const [showEmailDialog, setShowEmailDialog] = useState(false);
 
-  const handleEmailSubmit = (email: string) => {
-    setShowEmailDialog(false);
+  const handleEmailSubmit = async (email: string) => {
+    // Redirect to App Store immediately
     window.location.href = "https://apps.apple.com/us/app/echo-ai-music-generator/id6618152724";
+    setShowEmailDialog(false);
   };
 
   const handleGetStarted = () => {
