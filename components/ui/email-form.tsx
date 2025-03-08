@@ -1,13 +1,48 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useToast } from "@/hooks/use-toast";
 
 export const EmailForm = ({ onSubmit }: { onSubmit: (email: string) => void }) => {
   const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(email);
+    setIsLoading(true);
+
+    try {
+      // First save the email to Google Sheets
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save email');
+      }
+
+      // If successful, proceed with the original onSubmit handler
+      onSubmit(email);
+      
+      toast({
+        title: "Success!",
+        description: "Thank you for subscribing!",
+      });
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to save your email. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -27,10 +62,15 @@ export const EmailForm = ({ onSubmit }: { onSubmit: (email: string) => void }) =
             className="relative bg-transparent ring-0 outline-none border border-neutral-500 text-neutral-900 placeholder-violet-700 text-sm rounded-lg focus:ring-violet-500 placeholder-opacity-60 focus:border-violet-500 block w-full p-2.5 checked:bg-emerald-500" 
             placeholder="Enter your email..." 
             required
+            disabled={isLoading}
           />
         </div>
-        <button type="submit" className="bg-violet-500 text-neutral-50 p-2 rounded-lg hover:bg-violet-400">
-          Download
+        <button 
+          type="submit" 
+          className="bg-violet-500 text-neutral-50 p-2 rounded-lg hover:bg-violet-400 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Saving...' : 'Download'}
         </button>
       </div>
     </form>
